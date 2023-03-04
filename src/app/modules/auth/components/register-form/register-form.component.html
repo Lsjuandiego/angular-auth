@@ -48,7 +48,7 @@
 
 <div *ngIf="showRegister">
   <h1 class="text-center font-bold py-2 text-gray-700">Enter your data</h1>
-  <form [formGroup]="form" novalidate class="space-y-4" (ngSubmit)="register()">
+  <form [formGroup]="form" novalidate class="space-y-4" (ngSubmit)="registerAndLogin()">
     <div>
       <div class="relative">
         <input

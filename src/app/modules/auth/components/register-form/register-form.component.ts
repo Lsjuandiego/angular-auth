@@ -44,14 +44,35 @@ export class RegisterFormComponent {
     private authService: AuthService
   ) {}
 
-  register() {
+  //registro sin logearse -- remplazado por registerAndLogin
+  // register() {
+  //   if (this.form.valid) {
+  //     this.status = 'loading';
+  //     const { name, email, password } = this.form.getRawValue();
+  //     this.authService.register(name, email, password).subscribe({
+  //       next: () => {
+  //         this.status = 'success';
+  //         this.router.navigate(['/login']);
+  //       },
+  //       error: (error) => {
+  //         this.status = 'failed';
+  //         console.log("eeerrror",error);
+  //       },
+  //     });
+  //   } else {
+  //     this.form.markAllAsTouched();
+  //   }
+  // }
+
+
+  registerAndLogin() {
     if (this.form.valid) {
       this.status = 'loading';
       const { name, email, password } = this.form.getRawValue();
-      this.authService.register(name, email, password).subscribe({
+      this.authService.registerAndLogin(name, email, password).subscribe({
         next: () => {
           this.status = 'success';
-          this.router.navigate(['/login']);
+          this.router.navigate(['/app/boards']);
         },
         error: (error) => {
           this.status = 'failed';
