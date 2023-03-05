@@ -8,8 +8,9 @@ import { Router } from '@angular/router';
 export class AuthGuard {
   constructor(private tokenService: TokenService, private router: Router) {}
   canActivate(): boolean {
-    const token = this.tokenService.getToken();
-    if (!token) {
+    const isValidToken = this.tokenService.isValidToken();
+    console.log('from auth guard',isValidToken);
+    if (!isValidToken) {
       this.router.navigate(['/login']);
       return false;
     }

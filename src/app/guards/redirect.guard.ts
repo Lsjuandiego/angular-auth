@@ -10,8 +10,8 @@ export class RedirectGuard {
 
   //si se tiene el token, evitar que se vaya al login y se mantenga en app
   canActivate(): boolean {
-    const token = this.tokenService.getToken();
-    if (token) {
+    const isValidToken = this.tokenService.isValidToken();
+    if (isValidToken) {
       this.router.navigate(['/app']);
     }
     return true;
