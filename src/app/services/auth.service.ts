@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@environments/environment';
-import { switchMap, tap } from 'rxjs';
+import { BehaviorSubject, switchMap, tap } from 'rxjs';
 import { TokenService } from './token.service';
 import { ResponseLogin } from '@models/auth.model';
 import { User } from '@models/user.model';
@@ -12,7 +12,15 @@ import { User } from '@models/user.model';
 export class AuthService {
   apiUrl = environment.API_URL;
 
+  //permite guardar el usuario que esté logeado sin necesidad de estar haciendo request
+  //se llama en el layout.component
+  user$ = new BehaviorSubject<User | null>(null);
+
   constructor(private http: HttpClient, private tokenService: TokenService) {}
+
+  getDataUser(){
+    return this.user$.getValue();
+  }
 
   login(email: string, password: string) {
     return this.http
@@ -21,7 +29,7 @@ export class AuthService {
         password,
       })
       .pipe(
-        tap((response) => {
+        tap(response => {
           this.tokenService.saveToken(response.access_token);
         })
       );
@@ -63,7 +71,11 @@ export class AuthService {
       headers: {
         Authorization: `Bearer ${token}`
       }
-    });
+    }).pipe(
+      tap(user => {
+        this.user$.next(user);
+      })
+    );
   }
 
   changePassword(token: string, newPassword: string) {
