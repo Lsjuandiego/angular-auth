@@ -4,6 +4,7 @@ import { environment } from '@environments/environment';
 import { switchMap, tap } from 'rxjs';
 import { TokenService } from './token.service';
 import { ResponseLogin } from '@models/auth.model';
+import { User } from '@models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -53,6 +54,15 @@ export class AuthService {
   recovery(email: string) {
     return this.http.post(`${this.apiUrl}/api/v1/auth/recovery`, {
       email,
+    });
+  }
+
+  getProfile() {
+    const token = this.tokenService.getToken();
+    return this.http.get<User>(`${this.apiUrl}/api/v1/auth/profile`,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
   }
 
