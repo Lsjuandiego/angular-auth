@@ -18,11 +18,15 @@ export class UsersTableComponent implements OnInit {
     private authService: AuthService
   ) {}
   ngOnInit(): void {
-    this.userService.getUsers().subscribe((users) => {
-      this.dataSource.init(users);
-    });
+    this.getUsers();
     this.authService.user$.subscribe((user) => {
       this.user = user;
+    });
+  }
+
+  getUsers(){
+    this.userService.getUsers().subscribe((users) => {
+      this.dataSource.init(users);
     });
   }
 }
